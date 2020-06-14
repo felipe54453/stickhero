@@ -22,38 +22,6 @@ SKY = (72, 201, 176)
 PLAYER_DIMENSIONS = (30, 50)
 
 
-class Player(pygame.sprite.Sprite):
-    # Sprite for the Player
-    def __init__(self, posX):
-        pygame.sprite.Sprite.__init__(self)
-        #self.image = pygame.image.load(path.join(img_dir,'block.png')).convert_alpha()
-        self.image = pygame.Surface(PLAYER_DIMENSIONS)
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
-        self.rect.bottomleft = (int(posX), int(600))
-        self.speedx = 0
-        self.speedy = 0stick
-
-    def movement(self)
-
-    def update(self):
-        pass
-
-
-class Island(pygame.sprite.Sprite):
-    def __init__(self, posX):
-        pygame.sprite.Sprite.__init__(self)
-        self.randnumber = random.randint(50, 150)
-        self.image = pygame.Surface((self.randnumber, 200))
-        self.image.fill(BLACK)
-        self.rect = self.image.get_rect()
-        self.rect.bottomright = (int(posX), int(HEIGHT))
-        self.speedy = 0
-
-    def update(self):
-        pass
-
-
 class Stick(pygame.sprite.Sprite):
     def __init__(self, posX):
         pygame.sprite.Sprite.__init__(self)
@@ -61,7 +29,7 @@ class Stick(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.screen = screen
         self.spin = 0
-        self.stickSize = 200
+        self.stickSize = 100
         self.stickVel = 1
         self.growing = True
         self.condition = True
@@ -81,7 +49,6 @@ class Stick(pygame.sprite.Sprite):
             else:
                 self.stickSize += self.stickVel
             self.drawStick()
-
         if self.growing != True:
             self.drawStick()
 
@@ -100,13 +67,45 @@ class Stick(pygame.sprite.Sprite):
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 self.condition = True
+        #stick_tam = self.stickSize
+
+
+class Player(pygame.sprite.Sprite):
+    # Sprite for the Player
+    def __init__(self, posX):
+        pygame.sprite.Sprite.__init__(self)
+        #self.image = pygame.image.load(path.join(img_dir,'block.png')).convert_alpha()
+        self.image = pygame.Surface(PLAYER_DIMENSIONS)
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.bottomleft = (int(posX), int(600))
+        self.speedx = 0
+
+    def update(self):
+        if confirmado == True:
+            self.speedx += self.stickSize
+        pass
+
+
+class Island(pygame.sprite.Sprite):
+    def __init__(self, posX):
+        pygame.sprite.Sprite.__init__(self)
+        self.randnumber = random.randint(50, 150)
+        self.image = pygame.Surface((self.randnumber, 200))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.bottomright = (int(posX), int(HEIGHT))
+        self.speedy = 0
+
+    def update(self):
+        pass
 
 
 # Initialize pygame and create window
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Subway Surfers")
+pygame.display.set_caption("Stick Hero")
 clock = pygame.time.Clock()
 
 player_sprite = pygame.image.load(
@@ -149,6 +148,10 @@ try:
 
         hits = pygame.sprite.spritecollide(player, island_group, False)
         if hits:
+            pass
+
+        confirmado = pygame.sprite.spritecollide(Stick, island_group, False)
+        if confirmado:
             pass
 
         all_sprites.draw(screen)
