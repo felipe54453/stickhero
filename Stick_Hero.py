@@ -18,7 +18,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 SKY = (72, 201, 176)
-BROWN = (185,122,86)
+BROWN = (185, 122, 86)
 PLAYER_DIMENSIONS = (30, 50)
 
 
@@ -74,30 +74,31 @@ class Player(pygame.sprite.Sprite):
     # Sprite for the Player
     def __init__(self, posX):
         pygame.sprite.Sprite.__init__(self)
-        player_img = pygame.image.load(path.join(img_dir,'player-sprite.png')).convert_alpha()
+        player_img = pygame.image.load(
+            path.join(img_dir, 'player-sprite.png')).convert_alpha()
         self.image = player_img
-        
+
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (30, 50))
-        
+
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
-        #self.image.fill(BROWN)
+        # self.image.fill(BROWN)
         self.rect = self.image.get_rect()
         self.rect.x = posX
         self.rect.y = 550
         self.speedx = 0
 
     def update(self):
-    
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                self.rect.x+=3
+                self.rect.x += 3
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 pass
-                
+
         if self.rect.bottom < 600:
             self.kill()
 
@@ -141,14 +142,13 @@ for i in [150, 350]:
     island_group.add(island)
 
 stick = Stick(0)
-all_sprites.add(player,stick)
+all_sprites.add(player, stick)
 stick_group.add(stick)
 
 # Game Loop
 running = True
 try:
 
-    
     while running:
         # Keep the game running at the right speed
         clock.tick(FPS)
@@ -160,7 +160,7 @@ try:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-          
+
         hits = pygame.sprite.spritecollide(player, island_group, False)
         if hits:
             pass
